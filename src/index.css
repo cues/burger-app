@@ -1,0 +1,212 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Bitter';
+}
+
+.bt
+{
+  font-family: 'Bitter', serif;
+}
+.vk
+{
+  font-family: 'Vollkorn', serif ;
+}
+.cr
+{
+  font-family: 'Prociono', serif ;
+}
+.display_flex
+{
+  display: flex ;
+  align-items: center;
+  justify-content: center;
+}
+.display_flex_imp
+{
+  display: flex   !important;
+  align-items: center  !important;
+  justify-content: center  !important;
+  flex-direction: column !important;
+}
+.display_inline_scroll
+{
+  display: inline-block !important;
+  overflow-y: auto;
+}
+.none
+{
+  display: none !important;
+}
+.op_none
+{
+  opacity: 0 !important;
+}
+.cursor_pointer
+{
+  cursor: pointer !important;
+}
+.cursor_default
+{
+  cursor: default !important;
+}
+.tidngz_color
+{
+  color: rgba(15,101,141,1) !important;
+}
+.tidngz_color_light
+{
+  color: rgba(15,101,141,.8) !important;
+}
+.gamengz_color
+{
+  color: rgba(15,101,141,.9) !important;
+}
+.facebook_color
+{
+	color: rgba(59,89,152,1) !important;
+}
+.facebook_color_light
+{
+	color: rgba(59,89,152,.8) !important;
+}
+.messenger_color
+{
+  color: rgba(0, 132, 255, 1) !important;
+}
+.whatsapp_color
+{
+  color: rgb(37, 211, 102, 1) !important;
+}
+.twitter_color
+{
+	color: rgba(85,172,238,1) !important;
+}
+.youtube_color
+{
+	color: rgba(205,32,31,1) !important;
+}
+.youtube_color_light
+{
+	color: rgba(205,32,31,.8) !important;
+}
+.instagram_color
+{
+	color: rgba(245,96,64,1) !important;
+}
+.google_color
+{
+	color: rgba(220,78,65,1) !important;
+}
+.google_color_light
+{
+	color: rgba(220,78,65,.8) !important;
+}
+.fa_facebook:hover{
+  color: rgba(59,89,152,1) !important;
+}
+.fa_instagram:hover{
+  color: rgba(245,96,64,1) !important;
+}
+.fa_twitter:hover{
+  color: rgba(85,172,238,1) !important;
+}
+.fa_youtube:hover{
+  color: rgba(205,32,31,1) !important;
+}
+.fa_google_plus:hover, .google_plus_color{
+  color: rgba(221,75,57,1) !important;
+}
+.fa_pinterest_p:hover, .pinterest_color{
+  color: rgba(189,8,28,1) !important;
+}
+.fa_reddit_alien:hover, .reddit_color{
+  color: rgba(255,69,0,1) !important;
+}
+.fa_linkedin:hover, .linkedin_color{
+  color: rgba(0,119,181,1) !important;
+}
+.transition_1
+{
+    -webkit-transition: all .1s ease-in-out;
+       -moz-transition: all .1s ease-in-out;
+         -o-transition: all .1s ease-in-out;
+            transition: all .1s ease-in-out;
+}
+.transition_2
+{
+    -webkit-transition: all .2s ease-in-out;
+       -moz-transition: all .2s ease-in-out;
+         -o-transition: all .2s ease-in-out;
+            transition: all .2s ease-in-out;
+}
+.transition_3
+{
+    -webkit-transition: all .3s ease-in-out;
+       -moz-transition: all .3s ease-in-out;
+         -o-transition: all .3s ease-in-out;
+            transition: all .3s ease-in-out;
+}
+.transition_4
+{
+    -webkit-transition: all .4s ease-in-out;
+       -moz-transition: all .4s ease-in-out;
+         -o-transition: all .4s ease-in-out;
+            transition: all .4s ease-in-out;
+}
+.transition_5
+{
+    -webkit-transition: all .5s ease-in-out;
+       -moz-transition: all .5s ease-in-out;
+         -o-transition: all .5s ease-in-out;
+            transition: all .5s ease-in-out;
+}
+.transition_6
+{
+    -webkit-transition: all .6s ease-in-out;
+       -moz-transition: all .6s ease-in-out;
+         -o-transition: all .6s ease-in-out;
+            transition: all .6s ease-in-out;
+}
+.transition_7
+{
+    -webkit-transition: all .7s ease-in-out;
+       -moz-transition: all .7s ease-in-out;
+         -o-transition: all .7s ease-in-out;
+            transition: all .7s ease-in-out;
+}
+.transition_8
+{
+    -webkit-transition: all .8s ease-in-out;
+       -moz-transition: all .8s ease-in-out;
+         -o-transition: all .8s ease-in-out;
+            transition: all .8s ease-in-out;
+}
+.transition_9
+{
+    -webkit-transition: all .9s ease-in-out;
+       -moz-transition: all .9s ease-in-out;
+         -o-transition: all .9s ease-in-out;
+            transition: all .9s ease-in-out;
+}
+.transition_10
+{
+    -webkit-transition: all 1s ease-in-out;
+       -moz-transition: all 1s ease-in-out;
+         -o-transition: all 1s ease-in-out;
+            transition: all 1s ease-in-out;
+}
+.transition_20
+{
+    -webkit-transition: all 2s ease-in-out;
+       -moz-transition: all 2s ease-in-out;
+         -o-transition: all 2s ease-in-out;
+            transition: all 2s ease-in-out;
+}
+.transition_1m
+{
+    -webkit-transition: all 60s ease-in-out;
+       -moz-transition: all 60s ease-in-out;
+         -o-transition: all 60s ease-in-out;
+            transition: all 60s ease-in-out;
+}
