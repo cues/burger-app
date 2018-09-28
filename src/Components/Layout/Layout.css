@@ -5,6 +5,11 @@
 }
 .content
 {
-  margin-top: 16px;
-  background-color: red;
+  margin-top: 90px;
+  /* background-color: red; */
+}
+@media(max-width:768px){
+  .content{
+    margin-top:70px;
+  }
 }

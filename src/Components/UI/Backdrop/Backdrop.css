@@ -5,5 +5,28 @@
     z-index: 100;
     top:0;
     left:0;
-    background: rgba(0,0,0,.5)
+    /* background: rgba(0,0,0,.5); */
+}
+.Backdrop_dummy{
+    height:100vh;
+    width:100vw;
+    z-index: -1;
+    position: absolute;
+    top: 0;
+}
+.Backdrop_open{
+    display: block;
+}
+.Backdrop_close{
+    display: block;
+}
+.Backdrop_inner{
+    height:100vh;
+    width: 100vw;
+    background: rgba(0,0,0,.5);
+    opacity: 1;
+}
+
+.Backdrop_inner_close{
+    opacity: 0;
 }

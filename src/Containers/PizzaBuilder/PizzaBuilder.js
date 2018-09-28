@@ -57,7 +57,7 @@ class PizzaBuilder extends Component {
           return sum + el
         },0)
       this.setState({purchase : sum > 0})
-      console.log(sum)
+      // console.log(sum)
   }
 
 
@@ -125,6 +125,7 @@ class PizzaBuilder extends Component {
                               show={this.state.purchasing}
                               clicked_cancel={this.purchaseCancelHandler}
                               clicked_success={this.purchaseSuccessHandler}
+                              price={this.state.totalPrice}
                       />
             </Modal>
             <Pizza ingredients ={this.state.ingredients}/>

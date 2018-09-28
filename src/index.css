@@ -38,6 +38,12 @@ body {
 {
   display: none !important;
 }
+@media(max-width:768px){
+      .none_small
+    {
+      display: none !important;
+    }
+  }
 .op_none
 {
   opacity: 0 !important;
