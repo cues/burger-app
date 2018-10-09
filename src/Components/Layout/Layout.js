@@ -22,7 +22,8 @@ class Layout extends Component  {
       render(){
 
         // Object destructing 
-        const {children:child, xyz=1} = this.props;
+        // const {children:child, xyz=1} = this.props;
+        const {children:child} = this.props;
         const {showSideDrawer} = this.state;
 
           return(

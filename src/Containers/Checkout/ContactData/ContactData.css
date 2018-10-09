@@ -1,0 +1,31 @@
+.ContactData {
+    width:350px;
+    max-width: 100%;
+    text-align: center;
+    margin:auto;
+    flex-direction: column;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color:rgba(15,101,141,.8);
+    font-size: 17px;
+    background: rgba(102,102,102,.6);
+    box-shadow: 0 0 3px 0 rgba(23,23,23,.6);
+}
+
+.ContactData Form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width:300px;
+}
+.ContactData input::placeholder{
+    color:red
+}
+
+.ContactData input{
+    margin:10px 0;
+    width: 300px;
+}
+.ContactData button{
+    margin:10px 0 20px;
+}

@@ -5,6 +5,9 @@ import Pizza from '../../Components/Pizza/Pizza';
 import BuildControls from '../../Components/Pizza/BuildControls/BuildControls';
 import Modal from '../../Components/UI/Modal/Modal';
 import OrderSummary from '../../Components/Pizza/OrderSummary/OrderSummary';
+import axios from '../../axiosOrder';
+import Spinner from '../../Components/UI/Spinner/Spinner';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 const ingredientPrice = {
     salad : .5,
@@ -21,17 +24,26 @@ class PizzaBuilder extends Component {
   //   }
   // }
       state = {
-          ingredients : {
-                            salad : 0,
-                            bacon : 0,
-                            cheese : 0,
-                            meat : 0
-                        },
+          ingredients :null,
           totalPrice : 4,
           purchase : false,
-          purchasing: false
+          purchasing: false,
+          loading:false,
+          error:false
       }
 
+
+      componentDidMount(){
+        console.log(this.props)
+        axios.get('https://burger-app-1707.firebaseio.com/ingredients.json')
+        .then(response => {
+          this.setState({ingredients : response.data})
+        })
+        .catch(error => {
+          this.setState({error:true})
+          // console.log(error)
+        })
+      }
 
   purchasingHandler = () => {
     this.setState({purchasing : true})
@@ -41,8 +53,22 @@ class PizzaBuilder extends Component {
     this.setState({purchasing : false})
   }
 
-  purchaseSuccessHandler = () =>{
-    alert('contine')
+  purchaseContinueHandler = () =>{
+    const queryParams = [];
+
+    for(let i in this.state.ingredients){
+      queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
+    }
+
+    queryParams.push('price=' + this.state.totalPrice)
+
+    const queryString = queryParams.join('&');
+
+    this.props.history.push({
+      pathname :   '/Checkout',
+      search : '?' + queryString
+    })
+    
   }
 
 
@@ -109,34 +135,58 @@ class PizzaBuilder extends Component {
 
 
 
-    render(){
+  render(){
       const disableButton = {
         ...this.state.ingredients
       }
       for(let key in disableButton){
         disableButton[key] = disableButton[key] <= 0
       }
+
+      const {purchasing, ingredients, totalPrice, purchase, loading, error} = this.state;
+
+      const {addIngredientHandler, removeIngredienthandler, purchaseCancelHandler, purchaseContinueHandler, purchasingHandler } = this;
+
+
+         
+    const burger = ingredients ?
+
+          <Aux>
+              <Pizza ingredients ={ingredients}/>
+              <BuildControls
+                  addIngredient={addIngredientHandler}
+                  subIngredient={removeIngredienthandler}
+                  disabled = {disableButton}
+                  price = {totalPrice}
+                  purchase = {purchase}
+                  clicked = {purchasingHandler}
+              />
+          </Aux>
+      :
+      error ? <p style={{'textAlign':'center'}}>Ingredients can't be loaded</p> : <Spinner/> 
+            
+
+    const orderSummary = ingredients ?
+            !loading  ?
+              <OrderSummary 
+                    ingredients = {ingredients} 
+                    show={purchasing}
+                    clicked_cancel={purchaseCancelHandler}
+                    clicked_continue={purchaseContinueHandler}
+                    price={totalPrice}
+                />   
+            :
+                  <Spinner/> 
+    : null
+
+
       return (
         <Aux>
-            <Modal show={this.state.purchasing} 
+            <Modal show={purchasing} 
                    modalClosed={this.purchaseCancelHandler}>
-                      <OrderSummary 
-                              ingredients = {this.state.ingredients} 
-                              show={this.state.purchasing}
-                              clicked_cancel={this.purchaseCancelHandler}
-                              clicked_success={this.purchaseSuccessHandler}
-                              price={this.state.totalPrice}
-                      />
+                    {orderSummary}
             </Modal>
-            <Pizza ingredients ={this.state.ingredients}/>
-            <BuildControls
-                addIngredient={this.addIngredientHandler}
-                subIngredient={this.removeIngredienthandler}
-                disabled = {disableButton}
-                price = {this.state.totalPrice}
-                purchase = {this.state.purchase}
-                clicked = {this.purchasingHandler}
-            />
+            {burger}
         </Aux>
       )
     }
@@ -144,4 +194,4 @@ class PizzaBuilder extends Component {
 }
 
 
-export default PizzaBuilder;
+export default withErrorHandler(PizzaBuilder, axios);

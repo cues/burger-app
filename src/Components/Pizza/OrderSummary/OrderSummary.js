@@ -35,7 +35,7 @@ class OrderSummary extends Component {
                 <p>Continue to checkout</p>
                 <div className={cls.checkoutButtons}>
                     <Button clicked={this.props.clicked_cancel} buttonType="Danger">CANCEL</Button>
-                    <Button clicked={this.props.clicked_success} buttonType="Success">CONTINUE</Button>
+                    <Button clicked={this.props.clicked_continue} buttonType="Success">CONTINUE</Button>
                 </div>
                 
             </Aux>

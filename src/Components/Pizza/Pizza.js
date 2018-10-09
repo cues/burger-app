@@ -4,6 +4,7 @@ import cls from './Pizza.css';
 import PizzaIngredients from './PizzaIngredients/PizzaIngredients';
 
 const pizza = (props) => {
+  // console.log(props)
   let transformedIng = Object.keys(props.ingredients).map(igKey => {
     return [...Array(props.ingredients[igKey])].map((_,i) => {
       return <PizzaIngredients key = {igKey + i} type = {igKey} />;
