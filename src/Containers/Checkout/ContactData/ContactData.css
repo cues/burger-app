@@ -19,7 +19,7 @@
     width:300px;
 }
 .ContactData input::placeholder{
-    color:red
+    color:grey
 }
 
 .ContactData input{

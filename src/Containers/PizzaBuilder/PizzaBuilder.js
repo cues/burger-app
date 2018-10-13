@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import { connect } from 'react-redux';
 import Aux from '../../hoc/aux';
 import Pizza from '../../Components/Pizza/Pizza';
 import BuildControls from '../../Components/Pizza/BuildControls/BuildControls';
@@ -8,13 +8,9 @@ import OrderSummary from '../../Components/Pizza/OrderSummary/OrderSummary';
 import axios from '../../axiosOrder';
 import Spinner from '../../Components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import * as actionTypes from '../../Store/actions';
 
-const ingredientPrice = {
-    salad : .5,
-    bacon : .8,
-    cheese :.6,
-    meat : 1.3
-}
+
 
 class PizzaBuilder extends Component {
   // construct/or(props) {
@@ -24,9 +20,6 @@ class PizzaBuilder extends Component {
   //   }
   // }
       state = {
-          ingredients :null,
-          totalPrice : 4,
-          purchase : false,
           purchasing: false,
           loading:false,
           error:false
@@ -34,15 +27,15 @@ class PizzaBuilder extends Component {
 
 
       componentDidMount(){
-        console.log(this.props)
-        axios.get('https://burger-app-1707.firebaseio.com/ingredients.json')
-        .then(response => {
-          this.setState({ingredients : response.data})
-        })
-        .catch(error => {
-          this.setState({error:true})
-          // console.log(error)
-        })
+        // console.log(this.props)
+        // axios.get('https://burger-app-1707.firebaseio.com/ingredients.json')
+        // .then(response => {
+        //   this.setState({ingredients : response.data})
+        // })
+        // .catch(error => {
+        //   this.setState({error:true})
+        //   // console.log(error)
+        // })
       }
 
   purchasingHandler = () => {
@@ -54,20 +47,22 @@ class PizzaBuilder extends Component {
   }
 
   purchaseContinueHandler = () =>{
-    const queryParams = [];
+    // const queryParams = [];
 
-    for(let i in this.state.ingredients){
-      queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
-    }
+    // for(let i in this.state.ingredients){
+    //   queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
+    // }
 
-    queryParams.push('price=' + this.state.totalPrice)
+    // queryParams.push('price=' + this.state.totalPrice)
 
-    const queryString = queryParams.join('&');
+    // const queryString = queryParams.join('&');
 
-    this.props.history.push({
-      pathname :   '/Checkout',
-      search : '?' + queryString
-    })
+    // this.props.history.push({
+    //   pathname :   '/Checkout',
+    //   search : '?' + queryString
+    // })
+
+    this.props.history.push('/Checkout');
     
   }
 
@@ -82,53 +77,53 @@ class PizzaBuilder extends Component {
         .reduce((sum, el) => {
           return sum + el
         },0)
-      this.setState({purchase : sum > 0})
+      return sum > 0;
       // console.log(sum)
   }
 
 
-  addIngredientHandler = (type) => {
+  // addIngredientHandler = (type) => {
 
-        // update ingredient count
-        const oldCount = this.state.ingredients[type];
-        const newCount =  oldCount + 1;
-        const updateIngredient = {
-          ...this.state.ingredients
-        }
-        updateIngredient[type] = newCount;
+  //       // update ingredient count
+  //       const oldCount = this.state.ingredients[type];
+  //       const newCount =  oldCount + 1;
+  //       const updateIngredient = {
+  //         ...this.state.ingredients
+  //       }
+  //       updateIngredient[type] = newCount;
 
-        // update price
-        const addPrice = ingredientPrice[type];
-        const totalPrice = this.state.totalPrice + addPrice;
+  //       // update price
+  //       const addPrice = ingredientPrice[type];
+  //       const totalPrice = this.state.totalPrice + addPrice;
 
-        // update state
-        this.setState({totalPrice : totalPrice , ingredients : updateIngredient})
+  //       // update state
+  //       this.setState({totalPrice : totalPrice , ingredients : updateIngredient})
 
-        this.updatePurchase(updateIngredient)
-  }
+  //       this.updatePurchase(updateIngredient)
+  // }
 
 
 
-  removeIngredienthandler = (type) => {
-      const oldCount = this.state.ingredients[type];
-      const newCount = oldCount - 1;
+  // removeIngredienthandler = (type) => {
+  //     const oldCount = this.state.ingredients[type];
+  //     const newCount = oldCount - 1;
 
-      if(newCount < 0){
-        return
-      }
+  //     if(newCount < 0){
+  //       return
+  //     }
 
-            const updateIngredient = {
-              ...this.state.ingredients
-            }
-            updateIngredient[type] = newCount;
+  //           const updateIngredient = {
+  //             ...this.state.ingredients
+  //           }
+  //           updateIngredient[type] = newCount;
 
-            const subPrice = ingredientPrice[type];
-            const totalPrice = this.state.totalPrice - subPrice;
+  //           const subPrice = ingredientPrice[type];
+  //           const totalPrice = this.state.totalPrice - subPrice;
 
-            this.setState({totalPrice : totalPrice , ingredients : updateIngredient})
+  //           this.setState({totalPrice : totalPrice , ingredients : updateIngredient})
 
-            this.updatePurchase(updateIngredient);
-  }
+  //           this.updatePurchase(updateIngredient);
+  // }
 
 
 
@@ -137,28 +132,28 @@ class PizzaBuilder extends Component {
 
   render(){
       const disableButton = {
-        ...this.state.ingredients
+        ...this.props.ingredients
       }
       for(let key in disableButton){
         disableButton[key] = disableButton[key] <= 0
       }
 
-      const {purchasing, ingredients, totalPrice, purchase, loading, error} = this.state;
+      const {purchasing,  loading, error} = this.state;
 
-      const {addIngredientHandler, removeIngredienthandler, purchaseCancelHandler, purchaseContinueHandler, purchasingHandler } = this;
+      const {purchaseCancelHandler, purchaseContinueHandler, purchasingHandler } = this;
 
-
+      const {ingredients, totalPrice, onIngredientAdded, onIngredientRemoved} = this.props;
          
     const burger = ingredients ?
 
           <Aux>
               <Pizza ingredients ={ingredients}/>
               <BuildControls
-                  addIngredient={addIngredientHandler}
-                  subIngredient={removeIngredienthandler}
+                  addIngredient={onIngredientAdded}
+                  subIngredient={onIngredientRemoved}
                   disabled = {disableButton}
                   price = {totalPrice}
-                  purchase = {purchase}
+                  purchase = {this.updatePurchase (ingredients)}
                   clicked = {purchasingHandler}
               />
           </Aux>
@@ -194,4 +189,18 @@ class PizzaBuilder extends Component {
 }
 
 
-export default withErrorHandler(PizzaBuilder, axios);
+const mapStateToProps = state => {
+  return {
+    ingredients: state.ingredients,
+    totalPrice:state.totalPrice
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return{
+    onIngredientAdded: (name) => dispatch({type:actionTypes.ADD_INGREDIENT, ingredientName:name}),
+    onIngredientRemoved: (name) => dispatch({type:actionTypes.REMOVE_INGREDIENT, ingredientName:name})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(PizzaBuilder, axios));
