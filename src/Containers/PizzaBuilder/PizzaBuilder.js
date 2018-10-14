@@ -5,10 +5,10 @@ import Pizza from '../../Components/Pizza/Pizza';
 import BuildControls from '../../Components/Pizza/BuildControls/BuildControls';
 import Modal from '../../Components/UI/Modal/Modal';
 import OrderSummary from '../../Components/Pizza/OrderSummary/OrderSummary';
-import axios from '../../axiosOrder';
 import Spinner from '../../Components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import * as actionTypes from '../../Store/actions';
+import * as actionCreators from '../../Store/actions/index';
+import axios from '../../axiosOrder';
 
 
 
@@ -20,22 +20,13 @@ class PizzaBuilder extends Component {
   //   }
   // }
       state = {
-          purchasing: false,
-          loading:false,
-          error:false
+          purchasing: false
       }
 
 
       componentDidMount(){
         // console.log(this.props)
-        // axios.get('https://burger-app-1707.firebaseio.com/ingredients.json')
-        // .then(response => {
-        //   this.setState({ingredients : response.data})
-        // })
-        // .catch(error => {
-        //   this.setState({error:true})
-        //   // console.log(error)
-        // })
+        this.props.onInitIngredients()
       }
 
   purchasingHandler = () => {
@@ -62,7 +53,8 @@ class PizzaBuilder extends Component {
     //   search : '?' + queryString
     // })
 
-    this.props.history.push('/Checkout');
+        this.props.onInitPurchase()
+        this.props.history.push('/Checkout');
     
   }
 
@@ -138,11 +130,11 @@ class PizzaBuilder extends Component {
         disableButton[key] = disableButton[key] <= 0
       }
 
-      const {purchasing,  loading, error} = this.state;
+      const {purchasing, loading} = this.state;
 
       const {purchaseCancelHandler, purchaseContinueHandler, purchasingHandler } = this;
 
-      const {ingredients, totalPrice, onIngredientAdded, onIngredientRemoved} = this.props;
+      const {ingredients, totalPrice, onIngredientAdded, onIngredientRemoved, error} = this.props;
          
     const burger = ingredients ?
 
@@ -191,15 +183,18 @@ class PizzaBuilder extends Component {
 
 const mapStateToProps = state => {
   return {
-    ingredients: state.ingredients,
-    totalPrice:state.totalPrice
+    ingredients: state.pizzaBuilder.ingredients,
+    totalPrice:state.pizzaBuilder.totalPrice,
+    error: state.pizzaBuilder.error
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return{
-    onIngredientAdded: (name) => dispatch({type:actionTypes.ADD_INGREDIENT, ingredientName:name}),
-    onIngredientRemoved: (name) => dispatch({type:actionTypes.REMOVE_INGREDIENT, ingredientName:name})
+    onIngredientAdded: (name) => dispatch(actionCreators.add_ingredient(name)),
+    onIngredientRemoved: (name) => dispatch(actionCreators.remove_ingredient(name)),
+    onInitIngredients:() => dispatch(actionCreators.initIngredients()),
+    onInitPurchase: ()  => dispatch(actionCreators.purchaseInit())
   }
 }
 

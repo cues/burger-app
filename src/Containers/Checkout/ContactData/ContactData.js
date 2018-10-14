@@ -3,9 +3,11 @@ import Button from '../../../Components/UI/Button/Button';
 import cls from './ContactData.css';
 import classes from '../../../index.css';
 import axios from '../../../axiosOrder';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import Spinner from '../../../Components/UI/Spinner/Spinner';
 import Input from '../../../Components/UI/Input/Input';
 import { connect } from 'react-redux';
+import * as actionCreators from '../../../Store/actions/index';
 
 class ContactData extends Component{
     state = {
@@ -108,8 +110,7 @@ class ContactData extends Component{
                 valid:true
             }
         },
-        formIsValid:false,
-        loading:false
+        formIsValid:false
     }
     
 
@@ -119,31 +120,20 @@ class ContactData extends Component{
 
         // alert('contine')
     this.setState({loading : true});
-    const order = {
-      ingredients : this.props.ingredients,
-      price : this.props.totalPrice,
-      customer : {
-          name : 'Erroll',
-          address : {
-                       street : 'my street',
-                       zipCode : 'cr0 2gf',
-                       city : 'croydon',
-                    },
-          email : 'cues1707@gmail.com',
-          phone : '2432453245',
-      },
-      delivery: 'fast',
-    }
-    axios.post('/orders.json', order)
-    .then(response => {
-    //   console.log(response)
-    this.setState({loading : false});
-    this.props.history.push('/')
-    })
-    .catch(error => {
-    //   console.log(error)
-    this.setState({loading : false});
-    })
+
+        const formData = {};
+        for(let formElementidentifier in this.state.orderForm){
+            formData[formElementidentifier] = this.state.orderForm[formElementidentifier];
+        }
+
+        const order = {
+        ingredients : this.props.ingredients,
+        price : this.props.totalPrice,
+        orderData: formData
+        }
+
+        this.props.onOrderburger(order);
+  
     }
 
 
@@ -185,8 +175,12 @@ class ContactData extends Component{
 
     }
 
+
+
+
     render(){
-        const {loading, orderForm, formIsValid} = this.state;
+        const { orderForm, formIsValid} = this.state;
+        const {loading} = this.props;
 
         const formElementArray = [];
         for (let key in orderForm){
@@ -195,7 +189,6 @@ class ContactData extends Component{
                 config:orderForm[key],
             })
         }
-
 
 
         const form = !loading ? 
@@ -231,9 +224,17 @@ class ContactData extends Component{
 
 const mapStateToProps = state => {
     return {
-        ingredients : state.ingredients,
-        totalPrice : state.totalPrice
+        ingredients : state.pizzaBuilder.ingredients,
+        totalPrice : state.pizzaBuilder.totalPrice,
+        loading : state.order.loading
     }
 }
 
-export default connect(mapStateToProps)(ContactData);
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onOrderburger : (orderData) => dispatch(actionCreators.purchaseBurger(orderData))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData,axios));
