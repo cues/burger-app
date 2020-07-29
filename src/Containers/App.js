@@ -16,6 +16,9 @@ class App extends Component {
             <Route path="/" exact  component={PizzaBuilder}/>
           </Switch>
         </Layout>
+        <div>
+            love
+        </div>
       </div>
     );
   }
